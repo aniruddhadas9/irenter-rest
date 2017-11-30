@@ -1,6 +1,7 @@
 package com.candifood.rest.entities;
 
 public class Restaurant {
+    private int id;
     private String name;
     private String address;
     private String email;
@@ -15,19 +16,53 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public String getName() {
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public String getName()
+    {
         return name;
     }
 
-    public String getAddress() {
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getAddress()
+    {
         return address;
     }
 
-    public String getEmail() {
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+
+    public String getEmail()
+    {
         return email;
     }
 
-    public String getPhone() {
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public String getPhone()
+    {
         return phone;
+    }
+
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
     }
 }
