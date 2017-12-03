@@ -1,4 +1,4 @@
-package com.candifood.rest;
+package com.irenter.rest;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -25,25 +25,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
-public class Application
-{
+public class Application {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx)
-    {
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
 
             System.out.println("Let's inspect the beans provided by Spring Boot:");
 
             String[] beanNames = ctx.getBeanDefinitionNames();
             Arrays.sort(beanNames);
-            for (String beanName : beanNames)
-            {
+            for (String beanName : beanNames) {
                 System.out.println(beanName);
             }
 
@@ -54,14 +50,12 @@ public class Application
     public Datastore cloudDatastoreService() {
         return DatastoreOptions.getDefaultInstance().getService();
     }
+
     // CORS
     @Bean
-    FilterRegistrationBean corsFilter(@Value("${tagit.origin:http://localhost:8080}") String origin)
-    {
-        return new FilterRegistrationBean(new Filter()
-        {
-            public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException
-            {
+    FilterRegistrationBean corsFilter(@Value("${tagit.origin:http://localhost:8080}") String origin) {
+        return new FilterRegistrationBean(new Filter() {
+            public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
                 HttpServletRequest request = (HttpServletRequest) req;
                 HttpServletResponse response = (HttpServletResponse) res;
                 String method = request.getMethod();
@@ -71,23 +65,18 @@ public class Application
                 response.setHeader("Access-Control-Max-Age", Long.toString(60 * 60));
                 response.setHeader("Access-Control-Allow-Credentials", "true");
                 response.setHeader("Access-Control-Allow-Headers",
-                    "Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization");
-                if ("OPTIONS".equals(method))
-                {
+                        "Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization");
+                if ("OPTIONS".equals(method)) {
                     response.setStatus(HttpStatus.OK.value());
-                }
-                else
-                {
+                } else {
                     chain.doFilter(req, res);
                 }
             }
 
-            public void init(FilterConfig filterConfig)
-            {
+            public void init(FilterConfig filterConfig) {
             }
 
-            public void destroy()
-            {
+            public void destroy() {
             }
         });
 

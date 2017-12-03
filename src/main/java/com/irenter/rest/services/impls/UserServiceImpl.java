@@ -1,10 +1,10 @@
-package com.candifood.rest.services.impls;
+package com.irenter.rest.services.impls;
 
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import com.candifood.rest.entities.User;
+import com.irenter.rest.entities.User;
 import com.google.cloud.datastore.Batch;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;

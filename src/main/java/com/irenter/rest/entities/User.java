@@ -1,4 +1,4 @@
-package com.candifood.rest.entities;
+package com.irenter.rest.entities;
 
 public class User
 {

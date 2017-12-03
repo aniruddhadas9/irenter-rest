@@ -1,9 +1,9 @@
-package com.candifood.rest.controllers;
+package com.irenter.rest.controllers;
 
 import java.util.Collection;
 
-import com.candifood.rest.entities.Restaurant;
-import com.candifood.rest.services.RestaurantService;
+import com.irenter.rest.entities.Rent;
+import com.irenter.rest.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,32 +19,39 @@ public class DashboardController
     RestaurantService restaurantService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Collection<Restaurant> gets()
+    public Collection<Rent> gets()
     {
         return restaurantService.get();
     }
 
     @RequestMapping(value = "/{objectId}", method = RequestMethod.GET)
-    public Restaurant get(@PathVariable("objectId") String objectId) {
+    public Rent get(@PathVariable("objectId") String objectId) {
         return restaurantService.get(objectId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Restaurant post(@RequestBody Restaurant restaurant)
+    public Rent post(@RequestBody Rent rent)
     {
-        return restaurantService.post(restaurant);
+        return restaurantService.post(rent);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Restaurant put(@RequestBody Restaurant restaurant)
+    public Rent put(@RequestBody Rent rent)
     {
-        return restaurantService.put(restaurant);
+        return restaurantService.put(rent);
     }
 
     @RequestMapping(value = "/{objectId}", method = RequestMethod.DELETE)
-    public Restaurant delete(@PathVariable("objectId") String objectId)
+    public Rent delete(@PathVariable("objectId") String objectId)
     {
         return restaurantService.delete(objectId);
+    }
+
+    @RequestMapping("add")
+    public Rent add()
+    {
+        Rent rent = new Rent();
+        return restaurantService.post(rent);
     }
 
 }

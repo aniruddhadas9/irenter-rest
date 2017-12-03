@@ -1,19 +1,19 @@
-package com.candifood.rest.entities;
+package com.irenter.rest.entities;
 
-public class Restaurant {
+public class Rent {
     private int id;
     private String name;
     private String address;
     private String email;
     private String phone;
 
-    public Restaurant(String name, String address, String email, String phone) {
+    public Rent(String name, String address, String email, String phone) {
         this.name = name;
         this.address = address;
         this.email = email;
         this.phone = phone;
     }
-    public Restaurant() {
+    public Rent() {
     }
 
     public int getId()

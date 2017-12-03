@@ -1,9 +1,9 @@
-package com.candifood.rest.controllers;
+package com.irenter.rest.controllers;
 
 import java.util.Collection;
 
-import com.candifood.rest.entities.Restaurant;
-import com.candifood.rest.services.RestaurantService;
+import com.irenter.rest.entities.Rent;
+import com.irenter.rest.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ public class HomeController implements ErrorController {
     private static final String PATH = "/error";
 
     @RequestMapping()
-    public Collection<Restaurant> home() {
+    public Collection<Rent> home() {
         return restaurantService.get();
     }
 
