@@ -1,14 +1,12 @@
 package com.irenter.rest.services.impls;
 
 import com.irenter.rest.entities.Rent;
-import com.irenter.rest.services.RestaurantService;
+import com.irenter.rest.entities.User;
+import com.irenter.rest.services.RentService;
 import com.google.cloud.datastore.*;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
@@ -22,23 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Repository
-public class RestaurantServiceImpl implements RestaurantService {
+public class RentServiceImpl implements RentService {
 
-    private static Map<Integer, Rent> restaurants;
-
-
-
-    static {
-        restaurants = new HashMap<Integer, Rent>() {
-            {
-                put(1, new Rent("name", "address", "email", "phone"));
-                put(2, new Rent("name1", "address1", "email1", "phone1"));
-                put(3, new Rent("name2", "address2", "email2", "phone2"));
-                put(4, new Rent("name3", "address3", "email3", "phone3"));
-            }
-        };
-    }
-    private final Logger log = LoggerFactory.getLogger(RestaurantServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(RentServiceImpl.class);
 
     @Autowired
     Datastore datastore;
@@ -67,19 +51,35 @@ public class RestaurantServiceImpl implements RestaurantService {
     private Entity createRestaurantEntity(Rent rent) {
         Key key = userKeyFactory.newKey(rent.getId());
         return Entity.newBuilder(key)
-            .set("email", rent.getEmail())
-            .set("name", rent.getName())
-            .set("phone", rent.getPhone())
-            .build();
+                .set("email", rent.getEmail())
+                .set("name", rent.getName())
+                .set("phone", rent.getPhone())
+                .build();
     }
+
     @Override
-    public Collection<Rent> get()
-    {
-        return this.restaurants.values();
+    public List<Rent> getByUser(User user) {
+        List<Rent> rents = new ArrayList<Rent>();
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind("Rent")
+                .setOrderBy(StructuredQuery.OrderBy.desc("created"))
+                .build();
+        QueryResults<Entity> tasks = datastore.run(query);
+        while (tasks.hasNext()) {
+            Entity entity = tasks.next();
+            System.out.println(entity);
+            Rent rent = new Rent();
+            rent.setId(entity.getKey().getName());
+            rent.setEmail(entity.getString("email"));
+            rent.setFullName(entity.getString("fullName"));
+            rent.setPassword(entity.getString("password"));
+            rents.add(rent);
+        }
+        return users;
     }
 
 
-    public Rent addRestaurant(Rent rent) {
+    public Rent addRent(Rent rent) {
         Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
         Key taskKey;
         KeyFactory keyFactory = datastore.newKeyFactory().setKind("rent");
@@ -96,26 +96,22 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Rent get(String id)
-    {
+    public Rent get(String id) {
         return new Rent("name", "address", "email", "phone");
     }
 
     @Override
-    public Rent post(Rent rent)
-    {
+    public Rent post(Rent rent) {
+        return this.addRent(rent);
+    }
+
+    @Override
+    public Rent put(Rent rent) {
         return rent;
     }
 
     @Override
-    public Rent put(Rent rent)
-    {
-        return rent;
-    }
-
-    @Override
-    public Rent delete(String id)
-    {
+    public Rent delete(String id) {
         return new Rent("name", "address", "email", "phone");
     }
 }

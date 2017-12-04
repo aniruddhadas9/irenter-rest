@@ -1,14 +1,15 @@
 package com.irenter.rest.services;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.irenter.rest.entities.Rent;
+import com.irenter.rest.entities.User;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface RestaurantService {
+public interface RentService {
 
-    public Collection<Rent> get();
+    public List<Rent> getByUser(User user);
     public Rent get(String id);
     public Rent post(Rent rent);
     public Rent put(Rent rent);

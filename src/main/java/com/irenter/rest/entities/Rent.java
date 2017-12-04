@@ -1,68 +1,90 @@
 package com.irenter.rest.entities;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+
 public class Rent {
-    private int id;
-    private String name;
-    private String address;
-    private String email;
-    private String phone;
+    @NotNull
+    private String id;
 
-    public Rent(String name, String address, String email, String phone) {
-        this.name = name;
-        this.address = address;
-        this.email = email;
-        this.phone = phone;
-    }
-    public Rent() {
-    }
+    @NotNull
+    private String owner;
 
-    public int getId()
-    {
+    @NotBlank
+    private String renter;
+
+    @NotNull
+    private Address address;
+
+    private Date start;
+    private Date end;
+
+    private Date created;
+    private Date modified;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName()
-    {
-        return name;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setName(String name)
-    {
-        this.name = name;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
-    public String getAddress()
-    {
+    public String getRenter() {
+        return renter;
+    }
+
+    public void setRenter(String renter) {
+        this.renter = renter;
+    }
+
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address)
-    {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
-    public String getEmail()
-    {
-        return email;
+    public Date getStart() {
+        return start;
     }
 
-    public void setEmail(String email)
-    {
-        this.email = email;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public String getPhone()
-    {
-        return phone;
+    public Date getEnd() {
+        return end;
     }
 
-    public void setPhone(String phone)
-    {
-        this.phone = phone;
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
     }
 }
