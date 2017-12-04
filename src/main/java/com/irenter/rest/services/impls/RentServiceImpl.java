@@ -36,19 +36,19 @@ public class RentServiceImpl implements RentService {
     }
 
     public Entity createUser(Rent rent) {
-        return datastore.put(createRestaurantEntity(rent));
+        return datastore.put(createRentEntity(rent));
     }
 
     public Batch.Response createUser(List<Rent> rents) {
         Batch batch = datastore.newBatch();
         for (Rent rent : rents) {
-            batch.put(createRestaurantEntity(rent));
+            batch.put(createRentEntity(rent));
         }
 
         return batch.submit();
     }
 
-    private Entity createRestaurantEntity(Rent rent) {
+    private Entity createRentEntity(Rent rent) {
         Key key = userKeyFactory.newKey(rent.getId());
         return Entity.newBuilder(key)
                 .set("email", rent.getEmail())
@@ -70,12 +70,11 @@ public class RentServiceImpl implements RentService {
             System.out.println(entity);
             Rent rent = new Rent();
             rent.setId(entity.getKey().getName());
-            rent.setEmail(entity.getString("email"));
-            rent.setFullName(entity.getString("fullName"));
-            rent.setPassword(entity.getString("password"));
+            rent.setOwner(entity.getString("email"));
+            rent.setRenter(entity.getString("fullName"));
             rents.add(rent);
         }
-        return users;
+        return rents;
     }
 
 

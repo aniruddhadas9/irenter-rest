@@ -3,6 +3,7 @@ package com.irenter.rest.controllers;
 import java.util.Collection;
 
 import com.irenter.rest.entities.Rent;
+import com.irenter.rest.entities.User;
 import com.irenter.rest.services.RentService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,13 @@ public class DashboardController
     @Autowired
     RentService rentService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Collection<Rent> gets()
+    @RequestMapping(value = "/{objectId}", method = RequestMethod.GET)
+    public Collection<Rent> gets(@PathVariable("objectId") String userId)
     {
-        return rentService.get();
+        User user = new User();
+        user.setId(userId);
+
+        return rentService.getByUser(user);
     }
 
     @RequestMapping(value = "/{objectId}", method = RequestMethod.GET)
