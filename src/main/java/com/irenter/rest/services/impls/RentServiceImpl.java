@@ -1,23 +1,23 @@
 package com.irenter.rest.services.impls;
 
+import com.google.cloud.Timestamp;
+import com.google.cloud.datastore.*;
 import com.irenter.rest.entities.Rent;
 import com.irenter.rest.entities.User;
 import com.irenter.rest.services.RentService;
-import com.google.cloud.datastore.*;
+
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import com.google.cloud.datastore.Batch;
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.KeyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 @Repository
 public class RentServiceImpl implements RentService {
@@ -27,12 +27,13 @@ public class RentServiceImpl implements RentService {
     @Autowired
     Datastore datastore;
 
-    private KeyFactory userKeyFactory;
+    private KeyFactory rentKeyFactory;
 
     @PostConstruct
     public void initializeKeyFactories() {
         log.info("Initializing key factories");
-        userKeyFactory = datastore.newKeyFactory().setKind("Rent");
+        System.out.println("Initializing key factories");
+        rentKeyFactory = datastore.newKeyFactory().setKind("Rent");
     }
 
     public Entity createUser(Rent rent) {
@@ -48,17 +49,9 @@ public class RentServiceImpl implements RentService {
         return batch.submit();
     }
 
-    private Entity createRentEntity(Rent rent) {
-        Key key = userKeyFactory.newKey(rent.getId());
-        return Entity.newBuilder(key)
-                .set("email", rent.getEmail())
-                .set("name", rent.getName())
-                .set("phone", rent.getPhone())
-                .build();
-    }
-
     @Override
     public List<Rent> getByUser(User user) {
+
         List<Rent> rents = new ArrayList<Rent>();
         Query<Entity> query = Query.newEntityQueryBuilder()
                 .setKind("Rent")
@@ -77,40 +70,52 @@ public class RentServiceImpl implements RentService {
         return rents;
     }
 
-
-    public Rent addRent(Rent rent) {
-        Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-        Key taskKey;
-        KeyFactory keyFactory = datastore.newKeyFactory().setKind("rent");
-        IncompleteKey key = keyFactory.setKind("visit").newKey();
-        keyFactory = datastore.newKeyFactory().setKind("rent");
-        taskKey = keyFactory.newKey("rent");
-        Entity task = Entity.newBuilder(taskKey)
-                .set("category", "Personal")
-                .set("done", false)
-                .set("priority", 4)
-                .set("description", "Learn Cloud Datastore")
-                .build();
-        return rent;
+    @Override
+    public Entity get(String id) {
+        KeyFactory keyFactory = datastore.newKeyFactory().setKind("Rent");
+        Key key = keyFactory.newKey(id);
+        Entity entity = datastore.get(key);
+        return entity;
     }
 
     @Override
-    public Rent get(String id) {
-        return new Rent("name", "address", "email", "phone");
-    }
-
-    @Override
-    public Rent post(Rent rent) {
-        return this.addRent(rent);
+    public Entity post(Rent rent) {
+        return datastore.put(this.createRentEntity(rent));
     }
 
     @Override
     public Rent put(Rent rent) {
+        datastore.update(this.createRentEntity(rent));
         return rent;
     }
 
     @Override
     public Rent delete(String id) {
-        return new Rent("name", "address", "email", "phone");
+        KeyFactory keyFactory = datastore.newKeyFactory().setKind("Rent");
+        Key key = keyFactory.newKey(id);
+        datastore.delete(key);
+        return new Rent();
+    }
+
+    private Entity createRentEntity(Rent rent) {
+        Key key = rentKeyFactory.newKey(rent.getId());
+        return Entity.newBuilder(key)
+                .set("owner", rent.getOwner())
+                .set("renter", rent.getRenter())
+                .set("start", rent.getStart().toString())
+                .set("end", rent.getEnd().toString())
+                .set("created", new TimestampValue(Timestamp.now()))
+                .set("modified", new TimestampValue(Timestamp.now()))
+                // .set("address", rent.getAddress())
+                .build();
+    }
+    @Async
+    public void updateUser(String id, Rent rent) {
+        //
+    }
+
+    @Async
+    public void deleteUser(String id) {
+        //
     }
 }

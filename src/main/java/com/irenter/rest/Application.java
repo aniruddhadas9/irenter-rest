@@ -23,8 +23,17 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
+@EnableSwagger2
+@EnableWebMvc
 public class Application {
 
     public static void main(String[] args) {
@@ -82,4 +91,26 @@ public class Application {
 
 
     }
+
+    @Bean
+    public Docket newsApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("taskManager")
+                .apiInfo(apiInfo())
+                .select()
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Skill Score API")
+                .description("List of Rest API")
+                .termsOfServiceUrl("http://...")
+                .license("License Version 0.0")
+                .licenseUrl("https://....")
+                .version("0.0")
+                .build();
+    }
+
 }

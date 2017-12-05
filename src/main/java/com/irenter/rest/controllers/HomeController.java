@@ -3,6 +3,7 @@ package com.irenter.rest.controllers;
 import java.util.Collection;
 
 import com.irenter.rest.entities.Rent;
+import com.irenter.rest.entities.User;
 import com.irenter.rest.services.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -20,7 +21,9 @@ public class HomeController implements ErrorController {
 
     @RequestMapping()
     public Collection<Rent> home() {
-        return rentService.get();
+        User user = new User();
+        user.setId("1");
+        return rentService.getByUser(user);
     }
 
     @Override

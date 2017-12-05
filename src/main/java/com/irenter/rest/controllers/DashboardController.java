@@ -2,6 +2,7 @@ package com.irenter.rest.controllers;
 
 import java.util.Collection;
 
+import com.google.cloud.datastore.Entity;
 import com.irenter.rest.entities.Rent;
 import com.irenter.rest.entities.User;
 import com.irenter.rest.services.RentService;
@@ -21,7 +22,7 @@ public class DashboardController
     @Autowired
     RentService rentService;
 
-    @RequestMapping(value = "/{objectId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/all/{objectId}", method = RequestMethod.GET)
     public Collection<Rent> gets(@PathVariable("objectId") String userId)
     {
         User user = new User();
@@ -31,12 +32,12 @@ public class DashboardController
     }
 
     @RequestMapping(value = "/{objectId}", method = RequestMethod.GET)
-    public Rent get(@PathVariable("objectId") String objectId) {
+    public Entity get(@PathVariable("objectId") String objectId) {
         return rentService.get(objectId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Rent post(@RequestBody Rent rent)
+    public Entity post(@RequestBody Rent rent)
     {
         return rentService.post(rent);
     }
@@ -52,12 +53,4 @@ public class DashboardController
     {
         return rentService.delete(objectId);
     }
-
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public Rent add()
-    {
-        Rent rent = new Rent();
-        return rentService.post(rent);
-    }
-
 }
