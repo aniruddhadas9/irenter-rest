@@ -18,15 +18,26 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'com.google.cloud.tools.appengine'
 
-group 'com.candifood'
-version '1.0-SNAPSHOT'
+println "Building " + group + " : " + project.name + " : " + version
 
 jar {
-    baseName = 'candifood-rest'
-    version =  '0.1.0'
+    baseName = artifectId
+    version =  version
+    manifest {
+        attributes(
+                "Version" : version,
+                "Build-Time" : new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        )
+    }
+}
+
+ext {
+    springfoxSwagger2Version   = '2.7.0'
+    springfoxSwagger2UIVersion = '2.7.0'
 }
 
 springBoot {
+    mainClass  = "com.irenter.rest.Application"
     executable = true
 }
 

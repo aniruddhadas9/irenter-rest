@@ -18,6 +18,8 @@ public class Rent {
     @NotNull
     private Address address;
 
+    private float rentAmount;
+
     private Date start;
     private Date end;
 
@@ -86,5 +88,13 @@ public class Rent {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public float getRentAmount() {
+        return rentAmount;
+    }
+
+    public void setRentAmount(float rentAmount) {
+        this.rentAmount = rentAmount;
     }
 }

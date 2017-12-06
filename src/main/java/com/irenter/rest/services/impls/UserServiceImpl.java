@@ -44,7 +44,8 @@ public class UserServiceImpl {
 
             user.setId(entity.getKey().getName());
             user.setEmail(entity.getString("email"));
-            user.setFullName(entity.getString("fullName"));
+            user.setFirstName(entity.getString("firstName"));
+            user.setLastName(entity.getString("lastName"));
             user.setPassword(entity.getString("password"));
             users.add(user);
         }
@@ -69,7 +70,8 @@ public class UserServiceImpl {
         return Entity.newBuilder(key)
                 .set("email", user.getEmail())
                 .set("password", user.getPassword())
-                .set("fullName", user.getFullName())
+                .set("firstName", user.getFirstName())
+                .set("lastName", user.getLastName())
                 .set("age", user.getAge())
                 .build();
     }
