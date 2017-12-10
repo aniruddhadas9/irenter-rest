@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@Api(tags = "Dashboard")
+@Api(tags = "Rent")
 @RequestMapping("/rent")
 public class RentController {
     @Autowired

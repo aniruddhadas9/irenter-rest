@@ -24,6 +24,12 @@ public class User {
     @NotBlank
     private String lastName;
 
+    private String phone;
+
+    private String created;
+
+    private String updated;
+
     @NotNull
     @Min(1)
     private Integer age;
@@ -35,27 +41,24 @@ public class User {
         return id;
     }
 
-    public User setId(String id) {
+    public void setId(String id) {
         this.id = id;
-        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public User setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public User setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
     public String getFirstName() {
@@ -74,12 +77,35 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
     public Integer getAge() {
         return age;
     }
 
-    public User setAge(Integer age) {
+    public void setAge(Integer age) {
         this.age = age;
-        return this;
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@Api(tags = "Dashboard")
+@Api(tags = "Address")
 @RequestMapping("/address")
 public class AddressController {
     @Autowired
@@ -33,14 +33,14 @@ public class AddressController {
         return rentService.getByUser(user);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Entity post(@RequestBody Rent rent) {
-        return rentService.post(rent);
-    }
-
     @RequestMapping(value = "/{addressId}", method = RequestMethod.GET)
     public Entity get(@PathVariable("addressId") String rentId) {
         return rentService.get(rentId);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public Entity post(@RequestBody Rent rent) {
+        return rentService.post(rent);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
