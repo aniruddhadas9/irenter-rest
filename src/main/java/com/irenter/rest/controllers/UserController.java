@@ -18,25 +18,24 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
-    @RequestMapping(value = "/{addressId}", method = RequestMethod.GET)
-    public Entity get(@PathVariable("addressId") String rentId) {
-        return userService.get(rentId);
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    public Entity get(@PathVariable("userId") String userId) {
+        return userService.get(userId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Entity post(@RequestBody User rent) {
-        return userService.post(rent);
+    public Entity post(@RequestBody User user) {
+        return userService.post(user);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Message put(@RequestBody User rent) {
-        return userService.put(rent);
+    public Message put(@RequestBody User user) {
+        return userService.put(user);
     }
 
-    @RequestMapping(value = "/{objectId}", method = RequestMethod.DELETE)
-    public Message delete(@PathVariable("objectId") String objectId) {
-        return userService.delete(objectId);
+    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+    public Message delete(@PathVariable("userId") String userId) {
+        return userService.delete(userId);
     }
 
 }

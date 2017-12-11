@@ -128,6 +128,7 @@ public class UserServiceImpl implements UserService {
                 .set("password", user.getPassword())
                 .set("firstName", user.getFirstName())
                 .set("lastName", user.getLastName())
+                .set("phone", user.getPhone())
                 .set("age", user.getAge())
                 .build();
     }
