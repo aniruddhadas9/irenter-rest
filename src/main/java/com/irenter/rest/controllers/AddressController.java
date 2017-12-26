@@ -1,13 +1,18 @@
 package com.irenter.rest.controllers;
 
 import com.google.cloud.datastore.Entity;
+import com.google.gson.Gson;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.AddressComponent;
 import com.irenter.rest.entities.Rent;
 import com.irenter.rest.entities.User;
+import com.irenter.rest.services.GoogleMapService;
 import com.irenter.rest.services.RentService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Collection;
 
 @RestController
@@ -16,6 +21,9 @@ import java.util.Collection;
 public class AddressController {
     @Autowired
     RentService rentService;
+
+    @Autowired
+    GoogleMapService googleMapService;
 
     @RequestMapping(value = "/locality/{locality}", method = RequestMethod.GET)
     public Collection<Rent> getRentsByOwner(@PathVariable("locality") String ownerId) {
@@ -51,6 +59,17 @@ public class AddressController {
     @RequestMapping(value = "/{objectId}", method = RequestMethod.DELETE)
     public Rent delete(@PathVariable("objectId") String objectId) {
         return rentService.delete(objectId);
+    }
+
+    // experimental and will be deleted
+    @RequestMapping(value = "/nearbyplace", method = RequestMethod.GET)
+    public AddressComponent getNearByPlace() throws InterruptedException, ApiException, IOException {
+        return googleMapService.nearByPlaces();
+    }
+
+    @RequestMapping(value = "/geocode", method = RequestMethod.GET)
+    public Gson getGeocoding() throws InterruptedException, ApiException, IOException {
+        return googleMapService.geocodingApiData("1600 Amphitheatre Parkway Mountain View, CA 94043");
     }
 }
 
